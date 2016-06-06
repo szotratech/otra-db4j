@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>cn.otra.db4j</groupId>
+	<artifactId>otra-db4j</artifactId>
+	<version>0.0.5</version>
+	<packaging>pom</packaging>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<org.springframework.version>3.2.11.RELEASE</org.springframework.version>
+		<org.slf4j-version>1.6.6</org.slf4j-version>
+		<otra-commons.version>0.0.1</otra-commons.version>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>ecarinfo.release</id>
+			<name>ecarinfo public</name>
+			<url>http://10.0.10.245:8081/nexus/content/repositories/releases</url>
+		</repository>
+	</repositories>
+	<distributionManagement>
+		<repository>
+			<id>nexus-releases</id>
+			<name>Nexus Release Repository</name>
+			<url>http://10.0.10.245:8081/nexus/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>nexus-snapshots</id>
+			<name>Nexus Snapshot Repository</name>
+			<url>http://10.0.10.245:8081/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>attach-sources</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+					<version>2.1</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.5.1</version>
+					<configuration>
+						<source>1.6</source>
+						<target>1.6</target>
+						<compilerArgument>-Xlint:all</compilerArgument>
+						<showWarnings>true</showWarnings>
+						<showDeprecation>true</showDeprecation>
+					</configuration>
+				</plugin>
+				<!-- 将生成的jar包拷贝到指定目录,便于部署 -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<version>1.6</version>
+					<executions>
+						<execution>
+							<id>copy-jar</id>
+							<phase>package</phase>
+							<configuration>
+							</configuration>
+							<goals>
+								<goal>run</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- Test -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.11</version>
+				<scope>test</scope>
+			</dependency>
+			<!-- log4j -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+				<version>1.7.18</version>
+			</dependency>
+			<!-- ASM是一套JAVA字节码生成架构�?�它可以动�?�生成二进制格式的stub类或其他代理类， 或�?�在类被JAVA虚拟机装入内存之前，动�?�修改类 -->
+			<dependency>
+				<groupId>org.kohsuke</groupId>
+				<artifactId>asm4</artifactId>
+				<version>4.0</version>
+			</dependency>
+			<!-- AspectJ是一个面向切面的框架 -->
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjrt</artifactId>
+				<version>1.6.11</version>
+			</dependency>
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjweaver</artifactId>
+				<version>1.7.2</version>
+			</dependency>
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjlib</artifactId>
+				<version>1.6.2</version>
+			</dependency>
+
+			<!-- cglib是Spring、Hibernate依赖的核心包，但是cglib还算不上�?底层的， 因为它是在asm包之上做了封装，以增强易用�?��?? 
+				据了解，Hibernate3.2已经不再依赖cglib了，而直接依赖asm。这些都不影响cglib的强大功�? -->
+			<dependency>
+				<groupId>cglib</groupId>
+				<artifactId>cglib-nodep</artifactId>
+				<version>2.1_3</version>
+			</dependency>
+			<!-- spring start -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+
+			<!-- Expression Language (depends on spring-core) Define this if you use 
+				Spring Expression APIs (org.springframework.expression.*) -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-expression</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+
+			<!-- Bean Factory and JavaBeans utilities (depends on spring-core) Define 
+				this if you use Spring Bean APIs (org.springframework.beans.*) -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-beans</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+
+			<!-- Aspect Oriented Programming (AOP) Framework (depends on spring-core, 
+				spring-beans) Define this if you use Spring AOP APIs (org.springframework.aop.*) -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-aop</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+
+			<!-- Application Context (depends on spring-core, spring-expression, spring-aop, 
+				spring-beans) This is the central artifact for Spring's Dependency Injection 
+				Container and is generally always defined -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+
+			<!-- Various Application Context utilities, including EhCache, JavaMail, 
+				Quartz, and Freemarker integration Define this if you need any of these integrations -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context-support</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+
+			<!-- Transaction Management Abstraction (depends on spring-core, spring-beans, 
+				spring-aop, spring-context) Define this if you use Spring Transactions or 
+				DAO Exception Hierarchy (org.springframework.transaction.*/org.springframework.dao.*) -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-tx</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+
+			<!-- Object-to-Relation-Mapping (ORM) integration with Hibernate, JPA, 
+				and iBatis. (depends on spring-core, spring-beans, spring-context, spring-tx) 
+				Define this if you need ORM (org.springframework.orm.*) -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jdbc</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>cn.otra.commons</groupId>
+				<artifactId>otra-commons-model</artifactId>
+				<version>0.0.4</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	<modules>
+		<module>otra-db4j-api</module>
+		<module>otra-db4j-core</module>
+		<module>otra-db4j-utils</module>
+	</modules>
+</project>
